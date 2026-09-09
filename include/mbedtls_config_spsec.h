@@ -1,0 +1,132 @@
+/*
+ * Copyright (c) 2026
+ *
+ * Hochschule Offenburg, University of Applied Sciences
+ * Institute for reliable Embedded Systems
+ * and Communications Electronic (ivESK)
+ *
+ * This file is licensed as described in the "LICENSE" file
+ * included within the root folder of this work.
+ */
+
+/*
+ * Minimal Mbed TLS configuration for spsec_c
+ *
+ * Enables only the primitives used by the project:
+ * - AES-GCM (AES + GCM + CIPHER)
+ * - SHA-256 and generic MD layer
+ * - HKDF
+ * - HMAC-DRBG (seeded via seed_buf in this project)
+ *
+ * Explicitly disables TLS, X.509, and ECC.
+ */
+
+#ifndef MBEDTLS_CONFIG_SPSEC_H
+#define MBEDTLS_CONFIG_SPSEC_H
+
+/* Core platform abstraction (safe to enable) */
+#define MBEDTLS_PLATFORM_C
+
+/* Symmetric crypto needed by crypto.c */
+#define MBEDTLS_AES_C
+#define MBEDTLS_GCM_C
+#define MBEDTLS_CHACHAPOLY_C
+#define MBEDTLS_CHACHA20_C
+#define MBEDTLS_POLY1305_C
+#define MBEDTLS_CIPHER_C
+
+/* Hash and HKDF used across sessions/keys */
+#define MBEDTLS_SHA256_C
+#define MBEDTLS_MD_C
+#define MBEDTLS_HKDF_C
+
+/* Deterministic random_ptr generator */
+#define MBEDTLS_HMAC_DRBG_C
+#define MBEDTLS_ENTROPY_C
+
+/* Use default platform entropy sources */
+#undef MBEDTLS_NO_PLATFORM_ENTROPY
+
+/* Disable TLS protocol support */
+#undef MBEDTLS_SSL_ALL_ALERT_MESSAGES
+#undef MBEDTLS_SSL_RECORD_CHECKING
+#undef MBEDTLS_SSL_CONTEXT_SERIALIZATION
+#undef MBEDTLS_SSL_ENCRYPT_THEN_MAC
+#undef MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+#undef MBEDTLS_SSL_FALLBACK_SCSV
+#undef MBEDTLS_SSL_KEEP_PEER_CERTIFICATE
+#undef MBEDTLS_SSL_RENEGOTIATION
+#undef MBEDTLS_SSL_MAX_FRAGMENT_LENGTH
+#undef MBEDTLS_SSL_ALPN
+#undef MBEDTLS_SSL_TLS_C
+#undef MBEDTLS_SSL_SRV_C
+#undef MBEDTLS_SSL_CLI_C
+#undef MBEDTLS_SSL_CACHE_C
+#undef MBEDTLS_SSL_COOKIE_C
+#undef MBEDTLS_SSL_TICKET_C
+#undef MBEDTLS_SSL_PROTO_SSL3
+#undef MBEDTLS_SSL_PROTO_TLS1
+#undef MBEDTLS_SSL_PROTO_TLS1_1
+#undef MBEDTLS_SSL_PROTO_TLS1_2
+#undef MBEDTLS_SSL_PROTO_DTLS
+#undef MBEDTLS_SSL_PROTO_DTLS1_2
+#undef MBEDTLS_SSL_PROTO_TLS1_3_EXPERIMENTAL
+#undef MBEDTLS_SSL_DTLS_ANTI_REPLAY
+#undef MBEDTLS_SSL_DTLS_BADMAC_LIMIT
+#undef MBEDTLS_SSL_SERVER_NAME_INDICATION
+#undef MBEDTLS_SSL_DTLS_HELLO_VERIFY
+#undef MBEDTLS_SSL_ENCRYPT_THEN_MAC
+#undef MBEDTLS_SSL_EXTENDED_MASTER_SECRET
+#undef MBEDTLS_SSL_DTLS_CLIENT_PORT_REUSE
+#undef MBEDTLS_SSL_CBC_RECORD_SPLITTING
+#undef MBEDTLS_SSL_SESSION_TICKETS
+#undef MBEDTLS_SSL_EXPORT_KEYS
+#undef MBEDTLS_SSL_TRUNCATED_HMAC
+#undef MBEDTLS_SSL_TRUNCATED_HMAC_COMPAT
+
+/* Disable TLS key exchange helpers */
+#undef MBEDTLS_KEY_EXCHANGE_PSK_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_DHE_PSK_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_ECDHE_PSK_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_RSA_PSK_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_RSA_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_DHE_RSA_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_ECDHE_RSA_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_ECDHE_ECDSA_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_ECDH_ECDSA_ENABLED
+#undef MBEDTLS_KEY_EXCHANGE_ECDH_RSA_ENABLED
+
+/* Disable X.509, PKI, and certificate helpers */
+#undef MBEDTLS_X509_USE_C
+#undef MBEDTLS_X509_CREATE_C
+#undef MBEDTLS_X509_CRT_PARSE_C
+#undef MBEDTLS_X509_CRL_PARSE_C
+#undef MBEDTLS_X509_CSR_PARSE_C
+#undef MBEDTLS_X509_CRT_WRITE_C
+#undef MBEDTLS_X509_CSR_WRITE_C
+#undef MBEDTLS_X509_RSASSA_PSS_SUPPORT
+#undef MBEDTLS_CERTS_C
+#undef MBEDTLS_PK_C
+#undef MBEDTLS_PK_PARSE_C
+#undef MBEDTLS_PK_WRITE_C
+#undef MBEDTLS_RSA_C
+
+/* Disable ECC completely, including Everest/P-256 */
+#undef MBEDTLS_ECP_C
+#undef MBEDTLS_ECDH_C
+#undef MBEDTLS_ECDSA_C
+#undef MBEDTLS_ECDH_VARIANT_EVEREST_ENABLED
+#undef MBEDTLS_ECP_DP_SECP256R1_ENABLED
+#undef MBEDTLS_ECP_DP_CURVE25519_ENABLED
+
+/* Prefer to avoid PSA if pulled in by defaults */
+#undef MBEDTLS_PSA_CRYPTO_C
+#undef MBEDTLS_PSA_CRYPTO_CONFIG
+#undef MBEDTLS_PSA_CRYPTO_STORAGE_C
+#undef MBEDTLS_PSA_CRYPTO_SE_C
+#undef MBEDTLS_PSA_CRYPTO_DRIVERS
+
+/* Sanity checks */
+#define MBEDTLS_CHECK_CONFIG
+
+#endif /* MBEDTLS_CONFIG_SPSEC_H */
