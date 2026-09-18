@@ -79,9 +79,7 @@ void spsecmessage_dispose(SPsecMessage *msg_ptr) {
   if (!msg_ptr) {
     return;
   }
-  // Type-appropriate destructor first, so nested heap buffers aren't leaked.
-  // Every heap-owning content type must be listed; the default case handles
-  // flat structs (client hello/finished, read/write initiate, terminate...).
+  // Free nested buffers via type-specific destructor before freeing wrapper.
   switch (msg_ptr->msg_type) {
   case MSGTYPE_APP_DATA:
     spsecappdata_free(msg_ptr->msg_content_ptr);

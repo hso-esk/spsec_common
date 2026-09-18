@@ -80,9 +80,7 @@ typedef struct {
 SPsecMessage *spsecmessage_new(uint8_t msg_type, void *msg_content_ptr);
 void spsecmessage_free(SPsecMessage *msg_ptr);
 
-// Frees an SPsecMessage and its content via the right free for msg_type.
-// A plain free(msg->msg_content_ptr) leaks heap owned by content types like
-// app-data/heartbeat/sync-broadcast — use this for messages of unknown type.
+// Frees an SPsecMessage and its content via type-specific destructor.
 void spsecmessage_dispose(SPsecMessage *msg_ptr);
 
 // SPsec Session establishment messages
@@ -244,9 +242,7 @@ typedef struct {
 
 SPsecSessionTerminateMessage *
 spsecsessionterminatemsg_new(uint8_t participant_id, uint32_t cnt);
-// SPsecSessionTerminateMessage
-// *spsecsessionterminatemsg_new_with_status(uint8_t participant_id, uint32_t
-// cnt, uint8_t status);
+
 void spsecsessionterminatemsg_free(SPsecSessionTerminateMessage *msg_ptr);
 
 // SPsec time synchronization messages
@@ -305,9 +301,7 @@ typedef struct {
   SPsecAppData *spsec_app_data_ptr;
 } SPsecSyncTimeBroadcastMessage;
 SPsecSyncTimeBroadcastMessage *spsecsynctimebroadcast_new(uint16_t correction);
-// Returns 0 on success, -1 if the AppData allocation failed (msg_ptr is left
-// unmodified except for the timestamp/cor copy; app_data_ptr stays NULL).
-int8_t set_spsecsynctimebroadcast_timestamp(
+void set_spsecsynctimebroadcast_timestamp(
     SPsecSyncTimeBroadcastMessage *msg_ptr, uint8_t *timestamp_ptr);
 void spsecsynctimebroadcast_free(SPsecSyncTimeBroadcastMessage *msg_ptr);
 

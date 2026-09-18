@@ -22,9 +22,7 @@
 typedef struct {
   uint32_t last_received_can_id; // Last received CAN ID for duplicate detection
   uint64_t last_received_timestamp; // Timestamp of last received frame
-  // Track own used CAN IDs for the address guard. Must hold every registered
-  // control-plane ID: cpmt 0..12 (13 types) x 2 addressing modes = 26. Sized to
-  // 32 for headroom; an undersized array silently drops IDs from the guard set.
+  // Registered CAN IDs tracked by the DLL address guard (max 32).
   uint32_t own_can_ids[32];
   uint8_t own_can_id_count;         // Number of own CAN IDs tracked
   bool rx_overrun_detected;         // Receive buffer overrun flag

@@ -28,7 +28,7 @@ static const char *logger_name_ptr = "config";
 /* Timesync broadcast interval (10s default). */
 #define DEFAULT_TIMESYNC_BROADCAST_INTERVAL_US 10000000ULL
 
-/* Wait window before an unverified sync broadcast triggers restart recovery (30s). */
+/* Wait window before unverified broadcast triggers recovery (30s). */
 #define DEFAULT_TIMESYNC_BROADCAST_WAIT_US 30000000ULL /* 30 s */
 #define DEFAULT_WARNING_HOLD_TIME_US 5000000ULL       /* 5 seconds */
 
@@ -94,17 +94,17 @@ int config_init_defaults(ParticipantConfig *config_ptr) {
 }
 
 uint32_t spsec_tick_ns_for_data_bitrate(uint8_t can_data_bitrate) {
-  // Scale tick resolution proportionally with the actual CAN FD data bitrate
+  // Derive tick duration from actual CAN FD data bitrate.
   uint32_t bps = can_bitrate_data_to_bps(can_data_bitrate);
   if (bps == 0)
-    return 100000; // unrecognized: fall back to the standard 100us tick
+    return 100000; // unrecognized enum: fall back to the safe 1 Mbps tick
   uint64_t tick_ns = 100000000000ULL / (uint64_t)bps;
   return tick_ns > 0 ? (uint32_t)tick_ns : 1;
 }
 
 uint32_t spsec_max_accept_window_ticks(uint32_t tick_ns) {
   if (tick_ns == 0)
-    return 0;
+    return 0; // avoid propagating a bogus (unlimited) window
   return (uint32_t)(2048ULL * (uint64_t)tick_ns / SPSEC_REFERENCE_TICK_NS);
 }
 

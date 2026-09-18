@@ -18,9 +18,7 @@
 
 #include "keys.h" // SALT_LEN, KEY_LEN
 
-// File-based NVOL storage: one file per data item, so items can be added,
-// removed, or inspected independently. Swap the file I/O for flash/EEPROM
-// on an embedded target.
+// Non-volatile storage interface for keys and configuration.
 
 // Create the storage directory if needed. use_bin_format picks raw .bin vs
 // human-readable .txt.
@@ -59,9 +57,7 @@ signed char nvol_storage_delete(const char *path_ptr);
 bool nvol_storage_exists(const char *path_ptr);
 void nvol_storage_list_keys(void);
 
-// Load a key's hex value from a "key:hexbytes" provisioning file, for the
-// -k debug provisioning path. Swap for a flash/OTP read on a target with
-// no filesystem. Returns a malloc'd buffer (caller frees), or NULL.
+// Load key hex value from provisioning file (-k debug path).
 uint8_t *retrieve_dict_from_file(const char *filename_ptr, const char *key_ptr,
                                  size_t *out_len_ptr);
 

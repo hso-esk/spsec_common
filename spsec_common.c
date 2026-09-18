@@ -35,9 +35,7 @@ static void log_write(const char *fmt_ptr, ...) {
   platform_log_write(buf, len);
 }
 
-// Print a literal string segment without using dynamic precision ("%.*s"),
-// which is unsupported by some printf implementations (e.g.,
-// DbgConsole_Printf).
+// Print string segment without dynamic precision for embedded compatibility.
 static void log_print_literal_segment(const char *start_ptr, int len) {
   // Print in small chunks to avoid large stack buffers
   enum { CHUNK = 64 };

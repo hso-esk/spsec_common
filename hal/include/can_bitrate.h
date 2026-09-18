@@ -14,12 +14,7 @@
 
 #include "spsec_registers.h"
 
-// Platform hook to apply CAN FD bitrate config (register 7Bh). On Linux
-// this only logs the value; actual change needs `ip link ... type can`.
-
-// Apply CAN FD bitrate from register 7Bh (SPsec302 V40 2.3.5.5); call on
-// power cycle. Linux can't change bitrate at runtime, so this just logs it
-// (use `ip link set <if> type can bitrate <nominal> dbitrate <data> fd on`).
+// Platform hook to apply CAN FD bitrate config from register 7Bh.
 signed char can_bitrate_apply(const char *interface_name_ptr,
                               spsec_can_fd_bitrate_t bitrate_config);
 

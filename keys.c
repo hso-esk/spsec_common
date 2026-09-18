@@ -71,7 +71,8 @@ void spsecsalt_free(SPsecSalt *salt_ptr) {
 int8_t spseckey_init(SPsecKey *key_ptr, const uint32_t key_id,
                      const uint8_t *data_ptr) {
   if (!data_ptr) {
-    return spseckey_generate(key_ptr);
+    spseckey_generate(key_ptr);
+    return 0;
   }
   memcpy(key_ptr->key, data_ptr, KEY_LEN);
   // set key_id
@@ -112,12 +113,12 @@ int8_t spseckey_set_id(SPsecKey *key_ptr, const uint32_t key_id) {
   return 0;
 }
 
-int8_t spseckey_generate(SPsecKey *key_ptr) {
+void spseckey_generate(SPsecKey *key_ptr) {
   if (!key_ptr)
-    return -1;
+    return;
 #if defined(__linux__)
   if (getrandom(key_ptr->key, KEY_LEN, 0) == (ssize_t)KEY_LEN) {
-    return 0;
+    return;
   }
 #endif
   RandomGenerator rg;
@@ -127,12 +128,10 @@ int8_t spseckey_generate(SPsecKey *key_ptr) {
       memcpy(key_ptr->key, rnd_ptr, KEY_LEN);
       free(rnd_ptr);
       random_generator_free(&rg);
-      return 0;
+      return;
     }
     random_generator_free(&rg);
   }
-  LOG_ERROR(logger_name_ptr, "No RNG source available - key NOT generated");
-  return -1;
 }
 
 // Zeroes key + ID; call before overwriting so a half-written key is never

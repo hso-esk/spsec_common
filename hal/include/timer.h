@@ -57,9 +57,7 @@ typedef struct {
 } FreeRunningTimer;
 #endif
 
-// Starts the tick at 100us resolution; seconds_symbol_index in [0..15]
-// selects display speed (8 = neutral). Call timer_set_tick_ns() after to
-// scale to the configured CAN FD data bitrate (see config.h).
+// Start timer at base resolution; seconds_symbol_index scales speed.
 signed char timer_init(FreeRunningTimer *timer_ptr, uint8_t seconds_symbol_index);
 void timer_destroy(FreeRunningTimer *timer_ptr);
 

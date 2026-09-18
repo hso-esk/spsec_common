@@ -9,17 +9,7 @@
  * included within the root folder of this work.
  */
 
-/*
- * Minimal Mbed TLS configuration for spsec_c
- *
- * Enables only the primitives used by the project:
- * - AES-GCM (AES + GCM + CIPHER)
- * - SHA-256 and generic MD layer
- * - HKDF
- * - HMAC-DRBG (seeded via seed_buf in this project)
- *
- * Explicitly disables TLS, X.509, and ECC.
- */
+/* Minimal Mbed TLS configuration: AES-GCM, HMAC-SHA256, CTR-DRBG. */
 
 #ifndef MBEDTLS_CONFIG_SPSEC_H
 #define MBEDTLS_CONFIG_SPSEC_H

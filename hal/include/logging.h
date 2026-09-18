@@ -14,9 +14,7 @@
 
 #include <stddef.h>
 
-// Platform log sink (HAL): common/spsec_common.c formats lines and calls
-// these; the platform decides where bytes go. Linux writes to stdout/file;
-// port by reimplementing these four (e.g. UART).
+// Platform log sink: writes formatted log messages to output.
 
 /** @brief Emit already-formatted log bytes to the platform sink. */
 void platform_log_write(const char *data_ptr, size_t len);

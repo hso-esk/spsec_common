@@ -19,9 +19,7 @@
 #define WOLFCRYPT_ONLY
 #endif
 
-/* -------------------------------------------------------------------------
- * Algorithm Selection
- * ------------------------------------------------------------------------- */
+/* Algorithm Selection */
 
 /* Enable AES-GCM */
 #ifndef HAVE_AESGCM
@@ -68,9 +66,7 @@
 #define WOLFSSL_HMAC
 #endif
 
-/* -------------------------------------------------------------------------
- * Disable Unused Algorithms to save space
- * ------------------------------------------------------------------------- */
+/* Disable Unused Algorithms */
 #ifndef NO_RSA
 #define NO_RSA
 #endif
@@ -120,9 +116,7 @@
 /* Disable ASN.1 / X.509 if not strictly needed by RNG/HKDF */
 /* #define NO_ASN */
 
-/* -------------------------------------------------------------------------
- * System / Platform Settings
- * ------------------------------------------------------------------------- */
+/* System / Platform Settings */
 /* Use OS RNG */
 /* #define WOLFSSL_NO_RNG */ /* Do NOT define this; RNG is required */
 

@@ -9,9 +9,7 @@
  * included within the root folder of this work.
  */
 
-// spsec_mapping.h
-// Helpers to map key/salt selectors to registers and to validate register
-// lengths.
+// Helpers to map key/salt selectors to registers and validate lengths.
 
 #ifndef SPSEC_MAPPING_H
 #define SPSEC_MAPPING_H

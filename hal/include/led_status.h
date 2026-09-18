@@ -18,9 +18,7 @@
 // LED status indication for the SPsec state machine. Currently just logs
 // the state changes; embedded ports should drive real LEDs here.
 
-// Update LEDs for the current SPsec state per SPsec302 V40 Section 8.1:
-// not-active=red on, waiting=green blink 200/800ms, secure=green on,
-// warning=red+green alternate 400ms, configuration=green blink 800/200ms.
+// Update status LEDs according to current SPsec state.
 void led_status_update(spsec_state_t state, bool alert_flag);
 
 signed char led_status_init(void);

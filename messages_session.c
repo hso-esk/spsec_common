@@ -148,11 +148,6 @@ SPsecHeartbeatMessage *spsecheartbeat_new(uint8_t participant_id,
   hb_data[1] = 0xFF;
   msg_ptr->app_data_ptr = appdata_new(0, hb_data, 2);
   msg_ptr->spsec_app_data_ptr = NULL;
-  if (!msg_ptr->app_data_ptr) {
-    LOG_ERROR(logger_name_ptr, "Failed to allocate AppData for heartbeat");
-    free(msg_ptr);
-    return NULL;
-  }
 
   LOG_INFO(logger_name_ptr,
            "Created heartbeat message for participant %d with status 0x%02x",
@@ -190,24 +185,17 @@ SPsecSyncTimeBroadcastMessage *spsecsynctimebroadcast_new(uint16_t correction) {
   return msg_ptr;
 }
 
-int8_t set_spsecsynctimebroadcast_timestamp(
+void set_spsecsynctimebroadcast_timestamp(
     SPsecSyncTimeBroadcastMessage *msg_ptr, uint8_t *timestamp_ptr) {
   memcpy(msg_ptr->timestamp, timestamp_ptr, TIMESTAMP_SIZE);
 
   uint8_t tb_data[TIMESTAMP_SIZE + 2];
   memcpy(tb_data, msg_ptr->timestamp, TIMESTAMP_SIZE);
   memcpy(tb_data + TIMESTAMP_SIZE, msg_ptr->cor, 2);
-
-  appdata_free(msg_ptr->app_data_ptr);
   msg_ptr->app_data_ptr = appdata_new(0, tb_data, TIMESTAMP_SIZE + 2);
-  if (!msg_ptr->app_data_ptr) {
-    LOG_ERROR(logger_name_ptr, "Failed to allocate AppData for sync time broadcast");
-    return -1;
-  }
 
   LOG_DEBUG_ARRAY(logger_name_ptr, "Set timestamp_ptr in sync time broadcast message:",
                   msg_ptr->timestamp, TIMESTAMP_SIZE);
-  return 0;
 }
 
 void spsecsynctimebroadcast_free(SPsecSyncTimeBroadcastMessage *msg_ptr) {

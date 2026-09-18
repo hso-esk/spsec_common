@@ -462,9 +462,7 @@ static int wolfssl_backend_init(void **state_out) {
 }
 
 static void wolfssl_backend_destroy(void *state_ptr) {
-  /* A NULL state means init never succeeded (its failure path already released
-   * the wolfCrypt refcount), so a spurious destroy(NULL) must be a no-op — else
-   * it drops the global refcount while another handler is still using it. */
+  /* No-op if state is NULL to avoid dropping global refcount. */
   if (!state_ptr)
     return;
 
@@ -489,9 +487,7 @@ static int wolfssl_backend_configure(void *state_ptr, CryptoAlgorithm algorithm,
 
   memcpy(state->key, key, KEY_LEN);
   memset(state->nonce, 0, sizeof(state->nonce));
-  /* Clamp nonce to REQUIRED_NONCE_LEN (16 bytes). The nonce passed here should
-   * already be REQUIRED_NONCE_LEN bytes with salt padding per SPsec302
-   * specification. */
+  /* Clamp nonce to REQUIRED_NONCE_LEN (16 bytes). */
   state->nonce_len =
       nonce_len > REQUIRED_NONCE_LEN ? REQUIRED_NONCE_LEN : nonce_len;
   memcpy(state->nonce, nonce, state->nonce_len);

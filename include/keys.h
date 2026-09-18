@@ -61,8 +61,7 @@ uint32_t *spseckey_get_id(SPsecKey *key_ptr);
 int8_t spseckey_set_id(SPsecKey *key_ptr, const uint32_t key_id);
 
 int8_t spseckey_set(SPsecKey *key_ptr, const uint8_t *data_ptr);
-// Returns 0 on success, -1 if no RNG source was available
-int8_t spseckey_generate(SPsecKey *key_ptr);
+void spseckey_generate(SPsecKey *key_ptr);
 void spseckey_invalidate(SPsecKey *key_ptr);
 
 typedef struct {

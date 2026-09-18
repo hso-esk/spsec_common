@@ -46,9 +46,7 @@ typedef struct {
 
   /* Time synchronization */
   bool enable_timesync_role;        /**< Enable time sync authority role */
-  /* Offsets are in REFERENCE 0.1ms ticks: a fixed real duration, converted
-   * to the timer's actual tick domain at use via timer_reference_ticks(),
-   * so they keep their configured meaning at every CAN FD data bitrate. */
+  /* Offsets in reference 0.1ms ticks, converted to timer domain at use. */
   uint16_t timesync_offset;         /**< Time sync offset in reference 0.1ms ticks */
   uint16_t broadcast_offset;        /**< Broadcast offset in reference 0.1ms ticks */
   int timesync_retry_delay_seconds; /**< Time sync retry delay */
@@ -93,7 +91,7 @@ int config_init_defaults(ParticipantConfig *config_ptr);
 // spsec_registers.h; 100000 for anything unrecognized.
 uint32_t spsec_tick_ns_for_data_bitrate(uint8_t can_data_bitrate);
 
-// Largest accept-window (reference 0.1ms ticks) usable at this tick resolution.
+// Largest data-plane acceptance window for the given timer tick resolution.
 uint32_t spsec_max_accept_window_ticks(uint32_t tick_ns);
 
 // JSON config file (TOML support planned).

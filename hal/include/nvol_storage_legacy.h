@@ -77,9 +77,7 @@ signed char nvol_storage_write_varlen(const char *path_ptr, const uint8_t *data_
 signed char nvol_storage_read_varlen_alloc(const char *path_ptr, uint8_t **data_ptr,
                                            size_t *len_ptr);
 
-// Load a key's hex value from a "key:hexbytes" provisioning file, for the
-// -k debug provisioning path. Swap for a flash/OTP read on a target with
-// no filesystem. Returns a malloc'd buffer (caller frees), or NULL.
+// Load key hex value from provisioning file (-k debug path).
 uint8_t *retrieve_dict_from_file(const char *filename_ptr, const char *key_ptr,
                                  size_t *out_len_ptr);
 
